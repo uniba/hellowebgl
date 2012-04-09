@@ -1,0 +1,71 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<script src="ref/js/Three.js"></script>
+</head>
+<body>
+<script type="text/javascript">
+
+    var camera, scene, renderer, cube, pointLight;
+    
+	init();
+    animate();
+
+    function init()
+    {
+        scene = new THREE.Scene();
+
+        camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 10000 );
+        camera.position.z = 1000;
+        scene.add( camera );
+       	
+       	scene.add( new THREE.AmbientLight( 0x444444 ) );
+       	
+		pointLight = new THREE.PointLight( 0xffffff );
+		pointLight.position.x = 1000;
+		pointLight.position.y = 1000;
+		pointLight.position.z = 1000;
+		scene.add( pointLight );
+		      
+      	var geometry = new THREE.CubeGeometry( 200,200,200 );
+      	
+      	var material = new THREE.MeshLambertMaterial( {
+        	color: 0xffffff
+        } );
+              	
+      	var texture = THREE.ImageUtils.loadTexture("ref/img/heart.jpg");
+      	
+      	var material2 = new THREE.MeshLambertMaterial( { 
+      		color: 0xffffff,
+      		map: texture
+      	} );
+
+		cube = new THREE.Mesh(geometry, material);
+		scene.add( cube );
+		
+        renderer = new THREE.WebGLRenderer();
+        renderer.setSize( window.innerWidth, window.innerHeight );
+
+        document.body.appendChild( renderer.domElement );
+    }
+       	
+    function animate()
+    {
+        // note: three.js includes requestAnimationFrame shim
+        requestAnimationFrame( animate );
+        render();
+    }
+
+    function render()
+    {
+		
+		cube.rotation.x += 0.01;
+		cube.rotation.y += 0.02;
+		
+        renderer.render( scene, camera );
+    }
+
+</script>
+</body>
+</html>
